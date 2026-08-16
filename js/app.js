@@ -4,7 +4,7 @@
 const botonesSugerencias = document.querySelectorAll(".sugerencias_lista button");
 const listaMaterias = document.getElementById("lista-materias");
 
-// Declaro la clave para la persistencia de los datos en caché
+// Declaro la clave para la persistencia de los datos en localStorage
 const CLAVE = "estudoro:materias"
 
 // Puesta en marcha de los botones a través de clicks. Cada click agrega una materia al array
@@ -47,13 +47,12 @@ function renderizar() {
         item.innerHTML = `
           <div class="tarjeta_cuerpo">
              <p class="tarjeta_titulo">
-                 <span class="tarjeta_vineta"></span>
+                 <span class="tarjeta_vinieta"></span>
                  <span class="tarjeta_nombre"></span>
              </p>
              <p class="tarjeta_indicacion">25 min</p>
           </div>
           <div class="tarjeta_acciones">
-             <button class="boton boton_control" type="button">Play</button>
              <button class="boton boton_eliminar" type="button">Eliminar</button>
           </div> 
         `;
@@ -62,8 +61,8 @@ function renderizar() {
         //Funcionalidad del boton eliminar para quitar la materia de la lista
         item.querySelector(".boton_eliminar").addEventListener("click", () => {
             console.log("se borra:", materia.id); // Invoca al id que declaré arriba para que no dé undefined y tenga trackeo del evento
-            console.log("Restantes:", materias.map((m) => m.id));
-            materias = materias.filter ((m) => m.id !== materia.id);
+            materias = materias.filter ((otraMateria) => otraMateria.id !== materia.id);
+            console.log("Restantes:", materias.map((otraMateria) => otraMateria.id));
             guardarMaterias();
             renderizar(); 
         });
