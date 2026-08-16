@@ -4,6 +4,41 @@
 const botonesSugerencias = document.querySelectorAll(".sugerencias_lista button");
 const listaMaterias = document.getElementById("lista-materias");
 
+const listaSugerencias = document.querySelector(".sugerencias_lista");
+
+// Creo función asincrona que depende del fetch del json que tiene la data para renderizar los botones
+async function cargarSugerencias() {
+    const respuesta = await fetch("data/plantillas.json");
+    const datos = await respuesta.json();
+    console.log(respuesta);
+    renderizarSugerencias(datos);
+}
+
+function renderizarSugerencias(sugerencias) {
+    sugerencias.forEach((sugerencia) => {
+        const boton = document.createElement("button");
+        boton.className = "boton";
+        boton.textContent = sugerencia.titulo;
+
+        const item = document.createElement("li"); // cada elemento debe crearse en el mismo tipo que en el html para que siga la misma lógica del maquetado
+        item.className = "sugerencia";
+        
+        boton.addEventListener("click", () => {
+            materias.push({
+               id: Date.now().toString(),
+               titulo: sugerencia.titulo
+            });
+               guardarMaterias();
+               renderizar(); 
+        });
+
+        item.appendChild(boton);
+        listaSugerencias.insertBefore(item, listaSugerencias.firstChild); //Para que se renderize primero lo de js antes que el botón Otra que están en el html
+    });
+}
+
+cargarSugerencias();
+
 // Declaro la clave para la persistencia de los datos en localStorage
 const CLAVE = "estudoro:materias"
 
