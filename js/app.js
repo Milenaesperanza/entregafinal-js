@@ -6,6 +6,66 @@ const listaMaterias = document.getElementById("lista-materias");
 
 const listaSugerencias = document.querySelector(".sugerencias_lista");
 
+// Creo el DOM del funcionamiento del Reloj, el core de mi app
+
+const dom = {
+    reloj: document.querySelector(".reloj"),
+    tiempo: document.getElementById("reloj-tiempo"),
+    fase: document.getElementById("reloj-fase"),
+    estado: document.getElementById("reloj-estado")
+}
+
+// Declaro que cantidad de tiempo usa el reloj, ya que el pomodoro funciona así, por períodos de tiempo.
+
+const fases = {
+    estudio: { nombre: "Estudio", segundos: 1500}, // Eso son 25 minutos
+    descanso: {nombre: "Descanso", segundos: 300} // Eso son 5 minutos
+}
+
+let fase = "estudio";
+let segundos = fases.estudio.segundos;
+let corriendo = false;
+let intervalo = null
+
+// Creo la funcion que normaliza el formato de los números
+function dosDigitos(numero) {
+    if (numero<10) {
+        return "0" + numero;
+    }
+    return String(numero);
+} 
+
+// Creo la funcion que renderiza el paso del tiempo y su update de estado para el usuario
+function dibujar() {
+    const minutos = (segundos - (segundos % 60)) / 60;
+    dom.tiempo.textContent = `${dosDigitos(minutos)}:${dosDigitos(segundos % 60)}`;
+    dom.fase.textContent = fases[fase].nombre;
+    dom.estado.textContent = "En pausa";
+    if (corriendo) dom.estado.textContent = "";
+}
+
+dibujar();
+
+// Ahora implemento las funciones que ejecutan el funcionamiento del reloj (por ahora en consola)
+
+function comenzar() {
+    if(corriendo) return;
+    corriendo = true;
+    intervalo = setInterval(tic, 1000);
+    dibujar();
+}
+
+function tic() {
+    segundos -=1;
+    dibujar()
+}
+
+function detener() {
+    clearInterval(intervalo);
+    intervalo = null;
+    corriendo = false;
+}
+
 // Creo función asincrona que depende del fetch del json que tiene la data para renderizar los botones
 async function cargarSugerencias() {
     const respuesta = await fetch("data/plantillas.json");
