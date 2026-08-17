@@ -41,9 +41,32 @@
             </ul>
         </section>
     </main>
+    <div class="modal" id="modal-actividad">
+        <form class="modal_caja formulario" id="formulario-actividad">
+            <button class="modal_cerrar" type="button" id="btn-cerrar-modal">X</button>
+            <h3>Nueva materia</h3>
+
+            <label>
+                <span>¿Qué materia querés estudiar?</span>
+                <input type="text" id="campo-titulo" maxlength="20" placeholder="Literatura" required>
+            </label>
+            <label>
+                <span>¿Qué materia querés estudiar?</span>
+                <select id="campo-bloques" required>
+                    <option value="1">1 bloque: 25 minutos</option>
+                    <option value="2">2 bloques: 50 minutos</option>
+                    <option value="3">3 bloques: 1 hora 15 min.</option>
+                    <option value="4">4 bloques: 1 hora 40 min.</option>
+                </select>
+            </label>
+
+            <button class="boton boton_principal formulario_guardar" type="submit">Guardar</button>
+        </form>
+    </div>
     <footer>
         <p>&copy; 2026 Estudoro - Una app para el curso de Javascript de Coderhouse</p>
     </footer>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.26.25/dist/sweetalert2.all.min.js"></script>
     <script src="js/app.js"></script>
 </body>
 </html>
