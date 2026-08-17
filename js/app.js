@@ -12,7 +12,13 @@ const dom = {
     reloj: document.querySelector(".reloj"),
     tiempo: document.getElementById("reloj-tiempo"),
     fase: document.getElementById("reloj-fase"),
-    estado: document.getElementById("reloj-estado")
+    estado: document.getElementById("reloj-estado"),
+    modal: document.getElementById("modal-materia"),
+    formulario: document.getElementById("formulario-materia"),
+    campoTitulo: document.getElementById("campo-titulo"),
+    campoBloques: document.getElementById("campo-bloques"),
+    btnCerrarmodal: document.getElementById("btn-cerrarmodal"),
+    btnOtra: document.getElementById("btn-otra")
 }
 
 // Declaro que cantidad de tiempo usa el reloj, ya que el pomodoro funciona así, por períodos de tiempo.
@@ -99,6 +105,10 @@ function renderizarSugerencias(sugerencias) {
 
 cargarSugerencias();
 
+dom.btnCerrarmodal.addEventListener("click", cerrarFormulario);
+dom.btnOtra.addEventListener("click", abrirFormulario);
+dom.formulario.addEventListener("submit", guardarMateria);
+
 // Declaro la clave para la persistencia de los datos en localStorage
 const CLAVE = "estudoro:materias"
 
@@ -167,3 +177,30 @@ function renderizar() {
 }
 
 renderizar();
+
+function abrirFormulario() {
+    dom.campoTitulo.value = "";
+    dom.campoBloques.value = "1";
+    dom.modal.classList.add("modal--abierto");
+    dom.campoTitulo.focus();
+    console.log("Formulario abierto")
+}
+
+function cerrarFormulario() {
+    dom.modal.classList.remove("modal--abierto");
+    console.log("Formulario cerrado");
+}
+
+function guardarMateria(evento) {
+    evento.preventDefault();
+    const titulo = dom.campoTitulo.value.trim();
+
+    materias.push({
+        id: Date.now().toString(),
+        titulo,
+        bloques: Number(dom.campoBloques.value),
+    });
+    guardarMaterias();
+    cerrarFormulario();
+    renderizar();
+}

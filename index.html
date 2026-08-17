@@ -33,7 +33,7 @@
                 <p>Sugeridas:</p>
                 <ul class="sugerencias_lista">
                     <li class="sugerencia">
-                        <button class="boton">Otra</button>
+                        <button class="boton" id="btn-otra">Otra</button>
                     </li>
                 </ul>
             </div>
@@ -41,9 +41,9 @@
             </ul>
         </section>
     </main>
-    <div class="modal" id="modal-actividad">
-        <form class="modal_caja formulario" id="formulario-actividad">
-            <button class="modal_cerrar" type="button" id="btn-cerrar-modal">X</button>
+    <div class="modal" id="modal-materia">
+        <form class="modal_caja formulario" id="formulario-materia">
+            <button class="modal_cerrar" type="button" id="btn-cerrarmodal">X</button>
             <h3>Nueva materia</h3>
 
             <label>
@@ -51,7 +51,7 @@
                 <input type="text" id="campo-titulo" maxlength="20" placeholder="Literatura" required>
             </label>
             <label>
-                <span>¿Qué materia querés estudiar?</span>
+                <span>¿Cuánto tiempo querés estudiar?</span>
                 <select id="campo-bloques" required>
                     <option value="1">1 bloque: 25 minutos</option>
                     <option value="2">2 bloques: 50 minutos</option>
