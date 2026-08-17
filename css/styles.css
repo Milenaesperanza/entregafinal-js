@@ -129,6 +129,40 @@ body {
     gap: 11px;
 }
 
+.modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.modal--abierto {
+  display: flex;
+}
+
+.modal_caja {
+  background: white;
+  border: 2px solid black;
+  padding: 20px;
+  width: min(400px, 90vw);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  position: relative;
+}
+
+.modal_cerrar {
+  position: absolute;
+  top: 10px;
+  right: 14px;
+  border: none;
+  background: none;
+  font-size: 20px;
+  cursor: pointer;
+}
+
 /* Footer */
 
 footer {

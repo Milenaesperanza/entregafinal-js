@@ -1,7 +1,6 @@
 // Declaración de las variables que pertenecen a las acciónes que realizan los botones de sugerencias y
 // creación del array que se renderizará una vez realizado el click.
 
-const botonesSugerencias = document.querySelectorAll(".sugerencias_lista button");
 const listaMaterias = document.getElementById("lista-materias");
 
 const listaSugerencias = document.querySelector(".sugerencias_lista");
@@ -111,18 +110,6 @@ dom.formulario.addEventListener("submit", guardarMateria);
 
 // Declaro la clave para la persistencia de los datos en localStorage
 const CLAVE = "estudoro:materias"
-
-// Puesta en marcha de los botones a través de clicks. Cada click agrega una materia al array
-// que se renderizará luego en pantalla.
-
-botonesSugerencias.forEach((boton) => {
-    boton.addEventListener("click", () => {
-        console.log ("click en:", boton.textContent)
-        materias.push ({id: Date.now().toString(), titulo: boton.textContent}); //le doy un id a cada elemento a medida que se suceden los clicks
-        guardarMaterias();
-        renderizar();
-    })
-});
 
 // Creo las funciones que van a realizar las acciones que tienen que ver con el guardado y cargado de los arrays
 function guardarMaterias() {
