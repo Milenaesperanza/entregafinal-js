@@ -27,10 +27,12 @@ const fases = {
     descanso: {nombre: "Descanso", segundos: 300} // Eso son 5 minutos
 }
 
+// Estado por default del reloj
 let fase = "estudio";
 let segundos = fases.estudio.segundos;
 let corriendo = false;
-let intervalo = null
+let intervalo = null;
+let materiaId = null;
 
 // Creo la funcion que normaliza el formato de los números
 function dosDigitos(numero) {
@@ -104,6 +106,7 @@ function renderizarSugerencias(sugerencias) {
 
 cargarSugerencias();
 
+// Eventos
 dom.btnCerrarmodal.addEventListener("click", cerrarFormulario);
 dom.btnOtra.addEventListener("click", abrirFormulario);
 dom.formulario.addEventListener("submit", guardarMateria);
@@ -127,6 +130,25 @@ function cargarMaterias() {
 // Ahora mi array se llena con lo que carga del localStorage
 let materias = cargarMaterias();
 
+function controlarMateria(materia) {
+    if (materiaId === materia.id) {
+        if (corriendo) {
+            detener();
+        }
+        else {
+            comenzar();
+        }
+        renderizar();
+        return;
+    }
+
+    materiaId = materia.id;
+    fase = "estudio";
+    segundos = fases.estudio.segundos;
+    comenzar ();
+    renderizar();
+}
+
 // Creación de la función renderizar que inyecta una materia en el HTML en la sección "Mis materias del día"
 // cada vez que hago click en el botón, por orden.
 
@@ -136,6 +158,10 @@ function renderizar() {
     materias.forEach((materia) => {
         const item = document.createElement("li")
         item.className = "tarjeta";
+
+        const activa = materiaId === materia.id;
+        const textoControl = activa && corriendo ? "Detener" : "Comenzar";
+
         item.innerHTML = `
           <div class="tarjeta_cuerpo">
              <p class="tarjeta_titulo">
@@ -145,16 +171,24 @@ function renderizar() {
              <p class="tarjeta_indicacion">25 min</p>
           </div>
           <div class="tarjeta_acciones">
+             <button class="boton boton_control" type="button">${textoControl}</button>
              <button class="boton boton_eliminar" type="button">Eliminar</button>
           </div> 
         `;
         item.querySelector(".tarjeta_nombre").textContent = materia.titulo;
         
+        item.querySelector(".boton_control").addEventListener("click", () => controlarMateria(materia));
         //Funcionalidad del boton eliminar para quitar la materia de la lista
         item.querySelector(".boton_eliminar").addEventListener("click", () => {
-            console.log("se borra:", materia.id); // Invoca al id que declaré arriba para que no dé undefined y tenga trackeo del evento
+            if (materiaId === materia.id) {
+                detener();
+                materiaId = null;
+                fase = "estudio";
+                segundos = fases.estudio.segundos;
+                dibujar();
+            }
+            
             materias = materias.filter ((otraMateria) => otraMateria.id !== materia.id);
-            console.log("Restantes:", materias.map((otraMateria) => otraMateria.id));
             guardarMaterias();
             renderizar(); 
         });
@@ -164,6 +198,8 @@ function renderizar() {
 }
 
 renderizar();
+
+// Funciones para el formulario del modal
 
 function abrirFormulario() {
     dom.campoTitulo.value = "";
