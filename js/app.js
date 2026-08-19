@@ -180,6 +180,15 @@ function renderizar() {
         item.querySelector(".boton_control").addEventListener("click", () => controlarMateria(materia));
         //Funcionalidad del boton eliminar para quitar la materia de la lista
         item.querySelector(".boton_eliminar").addEventListener("click", () => {
+           Swal.fire({  //modal tipo notificación
+           title: `¿Eliminar ${materia.titulo}?`,
+           icon: "warning",
+           showCancelButton: true,
+           confirmButtonText: "Sí, eliminar",
+           cancelButtonText: "Cancelar"
+           }).then((resultado) => {
+            if(!resultado.isConfirmed) return;
+
             if (materiaId === materia.id) {
                 detener();
                 materiaId = null;
@@ -192,7 +201,8 @@ function renderizar() {
             guardarMaterias();
             renderizar(); 
         });
-        
+     });
+
         listaMaterias.appendChild(item);
     });
 }
