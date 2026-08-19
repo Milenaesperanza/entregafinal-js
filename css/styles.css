@@ -9,6 +9,10 @@ button {
 }
 
 :root {
+  --papel: #fffdf7;
+  --azul-renglon: #5c96c2;
+  --rojo-margen: #be4949;
+  --fondo: #d8d3c8;
   --fuente: "Overlock", sans-serif;
   --texto-chico: 0.87rem;
   --texto-secundario: 1rem;
@@ -23,7 +27,8 @@ body {
     flex-direction: column;
     gap: 16px;
     padding: 24px;
-    font: 400 1.06rem/1.45 var(--fuente)
+    font: 400 1.06rem/1.45 var(--fuente);
+    background-color: var(--fondo);
 }
 
 /* Encabezado */
@@ -55,7 +60,16 @@ body {
 .tablero {
     display: flex;
     gap: 24px;
-    border: 2px solid black;
+    position: relative;
+    z-index: 1;
+    min-height: 640px;
+    overflow: hidden;
+    background-color: var(--papel);
+    background-image:
+      linear-gradient(90deg, transparent 0 51px, color-mix(in srgb, var(--rojo-margen) 42%, transparent) 51px 52px, transparent 52px),
+      repeating-linear-gradient(180deg, transparent 0 35px, color-mix(in srgb, var(--azul-renglon) 24%, transparent) 35px 36px);
+    width: 100%;
+    box-shadow: 0 5px 14px;
 }
 
 .tablero h2 {
@@ -192,6 +206,7 @@ body {
   display: none;
   position: fixed;
   inset: 0;
+  z-index: 50;
   align-items: center;
   justify-content: center;
   background: rgba(0, 0, 0, 0.5);
