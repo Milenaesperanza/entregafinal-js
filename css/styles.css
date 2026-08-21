@@ -17,7 +17,8 @@ footer {
 
 .boton {
     padding: 6px 14px;
-    border: 2px solid black;
+    border: 2px solid var(--tinta);
+    color: var(--tinta);
     border-radius: 999px;
     background: transparent;
     cursor: pointer;
@@ -33,6 +34,7 @@ footer {
   --papel: #fffdf7;
   --azul-renglon: #5c96c2;
   --rojo-margen: #be4949;
+  --tinta: #253d73;
   --fondo: #d8d3c8;
   --fuente: "Overlock", sans-serif;
   --texto-chico: 0.87rem;
@@ -90,6 +92,7 @@ body {
       linear-gradient(90deg, transparent 0 51px, color-mix(in srgb, var(--rojo-margen) 42%, transparent) 51px 52px, transparent 52px),
       repeating-linear-gradient(180deg, transparent 0 35px, color-mix(in srgb, var(--azul-renglon) 24%, transparent) 35px 36px);
     box-shadow: 0 5px 14px;
+    color: var(--tinta);
 }
 
 .tablero h2 {
