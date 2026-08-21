@@ -5,6 +5,19 @@ const listaMaterias = document.getElementById("lista-materias");
 
 const listaSugerencias = document.querySelector(".sugerencias_lista");
 
+// Creo Variables y Funcion de los toast de confirmación de materias agregadas
+const Toast = Swal.mixin({
+    toast: true,
+    position: "bottom-end",
+    timer: 2000,
+    showConfirmButton: false,
+})
+
+function avisar(mensaje, tipo="info") {
+    const iconos = { exito: "sucess", error: "error", info: "info"};
+    return Toast.fire({ title: mensaje, icon: iconos[tipo] });
+}
+
 // Creo el DOM del funcionamiento del Reloj, el core de mi app
 
 const dom = {
@@ -96,7 +109,8 @@ function renderizarSugerencias(sugerencias) {
                titulo: sugerencia.titulo
             });
                guardarMaterias();
-               renderizar(); 
+               renderizar();
+               avisar("Materia agregada", "exito"); 
         });
 
         item.appendChild(boton);
@@ -236,4 +250,5 @@ function guardarMateria(evento) {
     guardarMaterias();
     cerrarFormulario();
     renderizar();
+    avisar("Materia agregada", "exito")
 }
