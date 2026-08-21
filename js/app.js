@@ -37,7 +37,8 @@ const dom = {
 
 const fases = {
     estudio: { nombre: "Estudio", segundos: 1500}, // Eso son 25 minutos
-    descanso: {nombre: "Descanso", segundos: 300} // Eso son 5 minutos
+    descanso: {nombre: "Descanso", segundos: 300}, // Eso son 5 minutos
+    descansoLargo: {nombre:"Descanso largo", segundos:900 } // Eso son 15 minutos
 }
 
 // Estado por default del reloj
@@ -46,6 +47,7 @@ let segundos = fases.estudio.segundos;
 let corriendo = false;
 let intervalo = null;
 let materiaId = null;
+let bloquesCompletados = 0;
 
 // Creo la funcion que normaliza el formato de los números
 function dosDigitos(numero) {
@@ -74,9 +76,38 @@ function comenzar() {
     intervalo = setInterval(tic, 1000);
     dibujar();
 }
+// Funciones para los bloques Pomodoro
+function cambiarFase(nuevaFase) {
+    detener();
+    fase = nuevaFase;
+    segundos = fases[fase].segundos;
+    dibujar();
+}
 
+function terminarFase() {
+    if (fase ==="estudio") {
+        bloquesCompletados += 1;
+        if (materiaId) completarBloque(materiaId);
+        
+        if (bloquesCompletados === 4) {
+            cambiarFase("descansoLargo");
+            bloquesCompletados = 0;
+        } else {
+        cambiarFase("descanso");
+        } 
+    } else {
+        cambiarFase("estudio");
+    }
+    comenzar();
+}
+
+// Funcionamiento del reloj
 function tic() {
     segundos -=1;
+    if (segundos <= 0) {
+        terminarFase();
+        return;
+    }
     dibujar()
 }
 
@@ -90,7 +121,6 @@ function detener() {
 async function cargarSugerencias() {
     const respuesta = await fetch("data/plantillas.json");
     const datos = await respuesta.json();
-    console.log(respuesta);
     renderizarSugerencias(datos);
 }
 
@@ -106,7 +136,10 @@ function renderizarSugerencias(sugerencias) {
         boton.addEventListener("click", () => {
             materias.push({
                id: Date.now().toString(),
-               titulo: sugerencia.titulo
+               titulo: sugerencia.titulo,
+               bloques:1,
+               bloquesCompletados:0,
+               completada: false
             });
                guardarMaterias();
                renderizar();
@@ -139,6 +172,15 @@ function cargarMaterias() {
         return JSON.parse(datos);
     }
     return[]
+}
+
+function completarBloque(id) {
+    const materia = materias.find((m) => m.id === id);
+    materia.bloquesCompletados += 1;
+    materia.completada = materia.bloquesCompletados >= materia.bloques;
+    guardarMaterias();
+    renderizar();
+    return materia.completada;
 }
 
 // Ahora mi array se llena con lo que carga del localStorage
@@ -182,7 +224,7 @@ function renderizar() {
                  <span class="tarjeta_vinieta"></span>
                  <span class="tarjeta_nombre"></span>
              </p>
-             <p class="tarjeta_indicacion">25 min</p>
+             <p class="tarjeta_indicacion">${materia.bloques * 25}min</p>
           </div>
           <div class="tarjeta_acciones">
              <button class="boton boton_control" type="button">${textoControl}</button>
@@ -230,12 +272,10 @@ function abrirFormulario() {
     dom.campoBloques.value = "1";
     dom.modal.classList.add("modal--abierto");
     dom.campoTitulo.focus();
-    console.log("Formulario abierto")
 }
 
 function cerrarFormulario() {
     dom.modal.classList.remove("modal--abierto");
-    console.log("Formulario cerrado");
 }
 
 function guardarMateria(evento) {
@@ -246,6 +286,8 @@ function guardarMateria(evento) {
         id: Date.now().toString(),
         titulo,
         bloques: Number(dom.campoBloques.value),
+        bloquesCompletados: 0,
+        completada: false,
     });
     guardarMaterias();
     cerrarFormulario();
