@@ -15,6 +15,20 @@ footer {
     margin-inline: auto;
 }
 
+.boton {
+    padding: 6px 14px;
+    border: 2px solid black;
+    border-radius: 999px;
+    background: transparent;
+    cursor: pointer;
+    font-weight: 700;
+    transition: transform 0.15s ease;
+}
+
+.boton:hover {
+    transform: translateY(-1px);
+}
+
 :root {
   --papel: #fffdf7;
   --azul-renglon: #5c96c2;
