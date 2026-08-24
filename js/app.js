@@ -28,6 +28,7 @@ const dom = {
     tiempo: document.getElementById("reloj-tiempo"),
     fase: document.getElementById("reloj-fase"),
     estado: document.getElementById("reloj-estado"),
+    foco: document.getElementById("foco-actividad"),
     modal: document.getElementById("modal-materia"),
     formulario: document.getElementById("formulario-materia"),
     campoTitulo: document.getElementById("campo-titulo"),
@@ -82,6 +83,11 @@ function dibujar() {
 
 dibujar();
 
+function actualizarFoco() {
+    const materia = materias.find((m) => m.id === materiaId);
+    dom.foco.textContent = materia ? materia.titulo : "Elegí una materia para empezar";
+}
+
 // Ahora implemento las funciones que ejecutan el funcionamiento del reloj (por ahora en consola)
 
 function comenzar() {
@@ -130,6 +136,7 @@ function restablecerTemporizador() {
     segundos = fases.estudio.segundos;
     dibujar();
     renderizar();
+    actualizarFoco();
 }
 
 // Funcionamiento del reloj
@@ -244,6 +251,7 @@ function controlarMateria(materia) {
     segundos = fases.estudio.segundos;
     comenzar ();
     renderizar();
+    actualizarFoco();
 }
 
 // Creación de la función renderizar que inyecta una materia en el HTML en la sección "Mis materias del día"
