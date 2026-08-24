@@ -173,6 +173,15 @@ function renderizarSugerencias(sugerencias) {
         item.className = "sugerencia";
         
         boton.addEventListener("click", () => {
+            const yaExiste = materias.some(
+                (materia) => materia.titulo.toLowerCase() === sugerencia.titulo.toLowerCase()
+            );
+
+            if (yaExiste) {
+                avisar("Esa materia ya está en la agenda", "info");
+                return;
+            }
+
             materias.push({
                id: Date.now().toString(),
                titulo: sugerencia.titulo,
@@ -327,6 +336,15 @@ function cerrarFormulario() {
 function guardarMateria(evento) {
     evento.preventDefault();
     const titulo = dom.campoTitulo.value.trim();
+
+    const yaExiste = materias.some(
+        (materia) => materia.titulo.toLowerCase() === titulo.toLowerCase()
+    );
+
+    if (yaExiste) {
+        avisar("Esa materia ya está en la agenda", "info");
+        return;
+    }
 
     materias.push({
         id: Date.now().toString(),
