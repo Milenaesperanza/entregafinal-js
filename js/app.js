@@ -5,6 +5,8 @@ const listaMaterias = document.getElementById("lista-materias");
 
 const listaSugerencias = document.querySelector(".sugerencias_lista");
 
+const COLORES = ["azul", "rojo", "verde"];
+
 // Creo Variables y Funcion de los toast de confirmación de materias agregadas
 const Toast = Swal.mixin({
     toast: true,
@@ -14,7 +16,7 @@ const Toast = Swal.mixin({
 })
 
 function avisar(mensaje, tipo="info") {
-    const iconos = { exito: "sucess", error: "error", info: "info"};
+    const iconos = { exito: "success", error: "error", info: "info"};
     return Toast.fire({ title: mensaje, icon: iconos[tipo] });
 }
 
@@ -154,6 +156,7 @@ function renderizarSugerencias(sugerencias) {
             materias.push({
                id: Date.now().toString(),
                titulo: sugerencia.titulo,
+               color: COLORES[materias.length % COLORES.length],
                bloques:1,
                bloquesCompletados:0,
                completada: false
@@ -235,7 +238,7 @@ function renderizar() {
 
     materias.forEach((materia) => {
         const item = document.createElement("li")
-        item.className = "tarjeta";
+        item.className = `tarjeta tarjeta--${materia.color}`;
 
         const activa = materiaId === materia.id;
         let textoControl = activa && corriendo ? "Detener" : "Comenzar";
@@ -304,10 +307,12 @@ function guardarMateria(evento) {
     materias.push({
         id: Date.now().toString(),
         titulo,
+        color: COLORES[materias.length % COLORES.length],
         bloques: Number(dom.campoBloques.value),
         bloquesCompletados: 0,
         completada: false,
     });
+
     guardarMaterias();
     cerrarFormulario();
     renderizar();

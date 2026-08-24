@@ -184,7 +184,32 @@ body {
     min-height: 76px;
     padding: 12px 12px;
     gap: 14px;
-    border: 1px solid black;
+    border: 2px solid var(--color-tema, var(--tinta));
+    background-color: var(--color-fondo, var(--papel));
+}
+
+.tarjeta--azul {
+    --color-tema: var(--tinta);
+    --color-fondo: #e6eef8;
+}
+
+.tarjeta--rojo {
+    --color-tema: #a74a4a;
+    --color-fondo: #f8e7e3;
+}
+
+.tarjeta--verde {
+    --color-tema: #3f7257;
+    --color-fondo: #e4f0e5;
+}
+
+.tarjeta_vinieta {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    flex: 0 0 12px;
+    border-radius: 50%;
+    background-color: var(--color-tema, var(--tinta));
 }
 
 .tarjeta_nombre {
