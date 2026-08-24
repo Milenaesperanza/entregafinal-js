@@ -33,6 +33,7 @@ const dom = {
     formulario: document.getElementById("formulario-materia"),
     campoTitulo: document.getElementById("campo-titulo"),
     campoBloques: document.getElementById("campo-bloques"),
+    error: document.getElementById("formulario-error"),
     btnCerrarmodal: document.getElementById("btn-cerrarmodal"),
     btnOtra: document.getElementById("btn-otra")
 }
@@ -329,6 +330,7 @@ renderizar();
 function abrirFormulario() {
     dom.campoTitulo.value = "";
     dom.campoBloques.value = "1";
+    dom.error.hidden = true;
     dom.modal.classList.add("modal--abierto");
     dom.campoTitulo.focus();
 }
@@ -340,6 +342,12 @@ function cerrarFormulario() {
 function guardarMateria(evento) {
     evento.preventDefault();
     const titulo = dom.campoTitulo.value.trim();
+
+    if (titulo.length < 2) {
+        dom.error.textContent = "Escribí una materia de al menos 2 caracteres.";
+        dom.error.hidden = false;
+        return;
+    }
 
     const yaExiste = materias.some(
         (materia) => materia.titulo.toLowerCase() === titulo.toLowerCase()
