@@ -1,3 +1,6 @@
+const estilos = getComputedStyle(document.documentElement);
+const color = (nombre) => estilos.getPropertyValue(nombre).trim();
+
 // Declaración de las variables que pertenecen a las acciónes que realizan los botones de sugerencias y
 // creación del array que se renderizará una vez realizado el click.
 
@@ -13,7 +16,21 @@ const Toast = Swal.mixin({
     position: "bottom-end",
     timer: 2000,
     showConfirmButton: false,
+    background: color("--tinta"),
+    color: color("--papel"),
 })
+
+function confirmar(texto) {
+    return Swal.fire ({
+    title: texto,
+    icon: "warning",
+    customClass: { popup: "confirmacion-eliminar"},
+    showCancelButton: true,
+    confirmButtonText: "Sí, eliminar",
+    cancelButtonText: "Cancelar",
+    confirmButtonColor: color ("--rojo"),
+  }).then((resultado) => resultado.isConfirmed);
+}
 
 function avisar(mensaje, tipo="info") {
     const iconos = { exito: "success", error: "error", info: "info"};
@@ -300,14 +317,8 @@ function renderizar() {
         item.querySelector(".boton_control").addEventListener("click", () => controlarMateria(materia));
         //Funcionalidad del boton eliminar para quitar la materia de la lista
         item.querySelector(".boton_eliminar").addEventListener("click", () => {
-           Swal.fire({  //modal tipo notificación
-           title: `¿Eliminar ${materia.titulo}?`,
-           icon: "warning",
-           showCancelButton: true,
-           confirmButtonText: "Sí, eliminar",
-           cancelButtonText: "Cancelar"
-           }).then((resultado) => {
-            if(!resultado.isConfirmed) return;
+            confirmar(`¿Eliminar ${materia.titulo}?`).then((confirmado) => {
+             if (!confirmado) return;
 
             if (materiaId === materia.id) {
                restablecerTemporizador();

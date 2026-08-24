@@ -54,6 +54,7 @@ footer {
   --papel: #fffdf7;
   --azul-renglon: #5c96c2;
   --rojo-margen: #be4949;
+  --rojo: #a74a4a;
   --tinta: #253d73;
   --fondo: #d8d3c8;
   --fuente: "Overlock", sans-serif;
@@ -304,13 +305,12 @@ body {
 }
 
 .modal_caja {
-  background: white;
-  border: 2px solid black;
-  padding: 20px;
+  background: var(--papel);
+  border: 1px solid var(--tinta);
+  padding: 0;
   width: min(400px, 90vw);
   display: flex;
   flex-direction: column;
-  gap: 12px;
   position: relative;
 }
 
@@ -323,6 +323,65 @@ body {
   font-size: 20px;
   cursor: pointer;
 }
+
+.swal2-popup {
+  box-shadow: none;
+}
+
+.confirmacion-eliminar {
+  width: min(340px, 90vw);
+  padding: 16px 16px 12px;
+  background: var(--papel);
+  border: 1px solid var(--tinta);
+  border-radius: 0;
+  font-family: var(--fuente);
+}
+
+.confirmacion-eliminar .swal2-title {
+  color: var(--tinta);
+  font-size: var(--texto-base);
+  padding: 0 8px;
+}
+
+.formulario h3 {
+  padding: 20px 20px 6px;
+  font-size: var(--texto-titulo);
+  font-weight: 700;
+}
+
+.formulario label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 10px 20px;
+}
+
+.formulario label span {
+  font-size: var(--texto-secundario);
+  color: var(--tinta);
+  opacity: 0.7;
+}
+
+.formulario input,
+.formulario select {
+  padding: 8px 2px 6px;
+  border: none;
+  border-bottom: 1px solid var(--tinta);
+  background: transparent;
+  color: var(--tinta);
+}
+
+.formulario input:focus,
+.formulario select:focus {
+  outline: none;
+  border-bottom-width: 2px;
+}
+
+.formulario_guardar {
+  align-self: flex-end;
+  margin: 12px 20px 20px;
+}
+
 
 /* Footer */
 
