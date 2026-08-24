@@ -23,6 +23,7 @@ function avisar(mensaje, tipo="info") {
 // Creo el DOM del funcionamiento del Reloj, el core de mi app
 
 const dom = {
+    pestanias: document.querySelectorAll(".pestanias button"),
     reloj: document.querySelector(".reloj"),
     tiempo: document.getElementById("reloj-tiempo"),
     fase: document.getElementById("reloj-fase"),
@@ -51,6 +52,16 @@ let intervalo = null;
 let materiaId = null;
 let bloquesCompletados = 0;
 
+function mostrarVista(nombre) {
+    dom.pestanias.forEach((pestania) => {
+        const elegida = pestania.id === `btn-${nombre}`;
+        pestania.classList.toggle("pestania-activa", elegida);
+    });
+
+    document.querySelector(".vista_pomodoro").classList.toggle("vista-oculta", nombre !== "pomodoro");
+    document.querySelector(".vista_lista").classList.toggle("vista-oculta", nombre !== "lista");
+}
+
 // Creo la funcion que normaliza el formato de los números
 function dosDigitos(numero) {
     if (numero<10) {
@@ -64,8 +75,9 @@ function dibujar() {
     const minutos = (segundos - (segundos % 60)) / 60;
     dom.tiempo.textContent = `${dosDigitos(minutos)}:${dosDigitos(segundos % 60)}`;
     dom.fase.textContent = fases[fase].nombre;
-    dom.estado.textContent = "En pausa";
-    if (corriendo) dom.estado.textContent = "";
+    dom.estado.textContent = "";
+    if (materiaId && !corriendo) dom.estado.textContent = "En pausa";
+    if (materiaId && corriendo) dom.estado.textContent = "Corriendo";
 }
 
 dibujar();
@@ -134,6 +146,7 @@ function detener() {
     clearInterval(intervalo);
     intervalo = null;
     corriendo = false;
+    dibujar();
 }
 
 // Creo función asincrona que depende del fetch del json que tiene la data para renderizar los botones
@@ -174,6 +187,9 @@ function renderizarSugerencias(sugerencias) {
 cargarSugerencias();
 
 // Eventos
+dom.pestanias.forEach((boton) => {
+    boton.addEventListener("click", () => mostrarVista(boton.id.replace("btn-", "")));
+});
 dom.btnCerrarmodal.addEventListener("click", cerrarFormulario);
 dom.btnOtra.addEventListener("click", abrirFormulario);
 dom.formulario.addEventListener("submit", guardarMateria);
