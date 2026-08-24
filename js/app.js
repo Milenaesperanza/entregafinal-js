@@ -269,11 +269,7 @@ function renderizar() {
             if(!resultado.isConfirmed) return;
 
             if (materiaId === materia.id) {
-                detener();
-                materiaId = null;
-                fase = "estudio";
-                segundos = fases.estudio.segundos;
-                dibujar();
+               restablecerTemporizador();
             }
             
             materias = materias.filter ((otraMateria) => otraMateria.id !== materia.id);
