@@ -87,8 +87,15 @@ function cambiarFase(nuevaFase) {
 function terminarFase() {
     if (fase ==="estudio") {
         bloquesCompletados += 1;
-        if (materiaId) completarBloque(materiaId);
+        let materiaTerminada = false;
+        if (materiaId) materiaTerminada = completarBloque(materiaId);
         
+        if (materiaTerminada) {
+            restablecerTemporizador();
+            avisar("Completaste la materia", "exito");
+            return;
+        }
+
         if (bloquesCompletados === 4) {
             cambiarFase("descansoLargo");
             bloquesCompletados = 0;
@@ -99,6 +106,16 @@ function terminarFase() {
         cambiarFase("estudio");
     }
     comenzar();
+}
+
+function restablecerTemporizador() {
+    detener();
+    materiaId = null;
+    bloquesCompletados = 0;
+    fase = "estudio";
+    segundos = fases.estudio.segundos;
+    dibujar();
+    renderizar();
 }
 
 // Funcionamiento del reloj
@@ -198,6 +215,11 @@ function controlarMateria(materia) {
         return;
     }
 
+    if (materiaId) {
+        avisar("Terminá o eliminá la materia activa antes de empezar otra", "info");
+        return;
+    }
+
     materiaId = materia.id;
     fase = "estudio";
     segundos = fases.estudio.segundos;
@@ -216,7 +238,8 @@ function renderizar() {
         item.className = "tarjeta";
 
         const activa = materiaId === materia.id;
-        const textoControl = activa && corriendo ? "Detener" : "Comenzar";
+        let textoControl = activa && corriendo ? "Detener" : "Comenzar";
+        if (materia.completada) textoControl = "Completada";
 
         item.innerHTML = `
           <div class="tarjeta_cuerpo">
@@ -227,7 +250,7 @@ function renderizar() {
              <p class="tarjeta_indicacion">${materia.bloques * 25}min</p>
           </div>
           <div class="tarjeta_acciones">
-             <button class="boton boton_control" type="button">${textoControl}</button>
+             <button class="boton boton_control" type="button" ${materia.completada ? "disabled" : ""}>${textoControl}</button>
              <button class="boton boton_eliminar" type="button">Eliminar</button>
           </div> 
         `;
