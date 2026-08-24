@@ -183,7 +183,7 @@ function renderizarSugerencias(sugerencias) {
             }
 
             materias.push({
-               id: Date.now().toString(),
+               id: creadId(),
                titulo: sugerencia.titulo,
                color: COLORES[materias.length % COLORES.length],
                bloques:1,
@@ -212,6 +212,10 @@ dom.formulario.addEventListener("submit", guardarMateria);
 
 // Declaro la clave para la persistencia de los datos en localStorage
 const CLAVE = "estudoro:materias"
+
+function creadId() {
+    return Date.now().toString();
+}
 
 // Creo las funciones que van a realizar las acciones que tienen que ver con el guardado y cargado de los arrays
 function guardarMaterias() {
@@ -347,7 +351,7 @@ function guardarMateria(evento) {
     }
 
     materias.push({
-        id: Date.now().toString(),
+        id: creadId(),
         titulo,
         color: COLORES[materias.length % COLORES.length],
         bloques: Number(dom.campoBloques.value),
