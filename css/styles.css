@@ -105,7 +105,7 @@ body {
     gap: 24px;
     position: relative;
     z-index: 1;
-    min-height: 460px;
+    min-height: 440px;
     overflow: hidden;
     background-color: var(--papel);
     background-image:
@@ -197,6 +197,24 @@ body {
     flex-direction: column;
     gap: 8px;
     list-style: none;
+    max-height: 244px;
+    overflow-y: auto;
+    padding-right: 10px;
+    scrollbar-color: var(--tinta) var(--papel);
+    scrollbar-width: thin;
+}
+
+.lista::-webkit-scrollbar {
+    width: 8px;
+}
+
+.lista::-webkit-scrollbar-track {
+    background: var(--papel);
+}
+
+.lista::-webkit-scrollbar-thumb {
+    background-color: var(--tinta);
+    border-radius: 999px;
 }
 
 .tarjeta {
