@@ -8,6 +8,8 @@ const listaMaterias = document.getElementById("lista-materias");
 
 const listaSugerencias = document.querySelector(".sugerencias_lista");
 
+const CLAVE_USUARIO = "estudoro:nombre-usuario";
+
 const COLORES = ["azul", "rojo", "verde"];
 
 // Creo Variables y Funcion de los toast de confirmación de materias agregadas
@@ -52,7 +54,14 @@ const dom = {
     campoBloques: document.getElementById("campo-bloques"),
     error: document.getElementById("formulario-error"),
     btnCerrarmodal: document.getElementById("btn-cerrarmodal"),
-    btnOtra: document.getElementById("btn-otra")
+    btnOtra: document.getElementById("btn-otra"),
+    btnNombre: document.getElementById("btn-nombre"),
+    nombreUsuario: document.getElementById("nombre-usuario"),
+    modalNombre: document.getElementById("modal-nombre"),
+    formularioNombre: document.getElementById("formulario-nombre"),
+    campoNombreUsuario: document.getElementById("campo-nombre-usuario"),
+    errorNombre: document.getElementById("formulario-nombre-error"),
+    btnCerrarmodalNombre: document.getElementById("btn-cerrarmodal-nombre")
 }
 
 // Declaro que cantidad de tiempo usa el reloj, ya que el pomodoro funciona así, por períodos de tiempo.
@@ -248,6 +257,52 @@ function cargarMaterias() {
     return[]
 }
 
+function cargarNombreUsuario() {
+    const nombre = localStorage.getItem(CLAVE_USUARIO);
+    return nombre ? nombre.trim() : "";
+}
+
+function guardarNombreUsuario(nombre) {
+    localStorage.setItem(CLAVE_USUARIO, nombre.trim());
+}
+
+function actualizarNombreUsuario() {
+    const nombre = cargarNombreUsuario();
+    dom.nombreUsuario.textContent = nombre || "Sin nombre";
+}
+
+function abrirModalNombre() {
+    dom.campoNombreUsuario.value = cargarNombreUsuario();
+    dom.errorNombre.hidden = true;
+    dom.modalNombre.classList.add("modal--abierto");
+    dom.campoNombreUsuario.focus();
+}
+
+function cerrarModalNombre() {
+    dom.modalNombre.classList.remove("modal--abierto");
+}
+
+function guardarNombreDesdeModal(evento) {
+    evento.preventDefault();
+    const nombre = dom.campoNombreUsuario.value.trim();
+
+    if (nombre.length < 2) {
+        dom.errorNombre.textContent = "Escribí un nombre de al menos 2 letras.";
+        dom.errorNombre.hidden = false;
+        return;
+    }
+
+    guardarNombreUsuario(nombre);
+    actualizarNombreUsuario();
+    cerrarModalNombre();
+
+}
+
+dom.btnNombre.addEventListener("click", abrirModalNombre);
+dom.btnCerrarmodalNombre.addEventListener("click", cerrarModalNombre);
+dom.formularioNombre.addEventListener("submit", guardarNombreDesdeModal);
+
+
 function completarBloque(id) {
     const materia = materias.find((m) => m.id === id);
     materia.bloquesCompletados += 1;
@@ -380,6 +435,8 @@ function guardarMateria(evento) {
 
     guardarMaterias();
     cerrarFormulario();
+    actualizarNombreUsuario();
+    if (!cargarNombreUsuario()) abrirFormulario();
     renderizar();
     avisar("Materia agregada", "exito")
 }

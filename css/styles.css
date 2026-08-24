@@ -99,6 +99,22 @@ body {
     font-weight: 500;
 }
 
+.encabezado_nombre {
+    margin-left: auto;
+    padding: 6px 14px;
+    border: 2px solid var(--tinta);
+    border-radius: 999px;
+    background: transparent;
+    color: var(--tinta);
+    font-weight: 700;
+    cursor: pointer;
+    transition: transform 0.15s ease;
+}
+
+.encabezado_nombre:hover {
+    transform: translateY(-1px);
+}
+
 /* Tablero: Reloj + Materias */
 
 .tablero {

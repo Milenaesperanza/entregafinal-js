@@ -17,6 +17,9 @@
             <h1>Estudoro</h1>
             <p>tu estudio, en foco</p>
         </div>
+        <button class="encabezado_nombre" id="btn-nombre" type=""button">
+           <span id="nombre-usuario">Sin nombre</span>
+        </button>
     </header>
     <main class="tablero">
       <nav class="pestanias">
@@ -70,6 +73,21 @@
             </label>
 
             <p class="formulario_error" id="formulario-error" hidden></p>
+
+            <button class="boton boton_principal formulario_guardar" type="submit">Guardar</button>
+        </form>
+    </div>
+    <div class="modal" id="modal-nombre">
+        <form class="modal_caja formulario" id="formulario-nombre">
+            <button class="modal_cerrar" type="button" id="btn-cerrarmodal-nombre">X</button>
+            <h3>¡Hola! ¿Cómo te llamás?</h3>
+
+            <label>
+                <span>Escribí tu nombre</span>
+                <input type="text" id="campo-nombre-usuario" maxlength="20" placeholder="Tu nombre" required>
+            </label>
+
+            <p class="formulario_error" id="formulario-nombre-error" hidden></p>
 
             <button class="boton boton_principal formulario_guardar" type="submit">Guardar</button>
         </form>
