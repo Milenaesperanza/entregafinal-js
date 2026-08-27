@@ -209,6 +209,41 @@ body {
     list-style: none;
 }
 
+.sugerencia {
+    --color-tema: var(--tinta);
+    --fondo-sugerencia: color-mix(in srgb, var(--color-tema) 10%, transparent);
+    --giro: -1deg;
+    display: inline-flex;
+}
+
+.sugerencia--rojo {
+    --color-tema: var(--rojo);
+    --giro: 1deg;
+}
+
+.sugerencia--verde {
+    --color-tema: #3f7257;
+    --giro: -0.5deg;
+}
+
+.sugerencias_lista .boton {
+    border-color: var(--color-tema);
+    color: var(--color-tema);
+    background: var(--fondo-sugerencia);
+    border-radius: 52% 48% 50% 46% / 55% 49% 53% 47%;
+    transform: rotate(var(--giro));
+    transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.sugerencia--otra .boton {
+    border-style: dashed;
+}
+
+.sugerencias_lista .boton:hover {
+    transform: translateY(-2px) rotate(var(--giro)) scale(1.04);
+    background: color-mix(in srgb, var(--color-tema) 18%, var(--papel));
+}
+
 .lista {
     display: flex;
     flex-direction: column;
@@ -291,14 +326,26 @@ body {
     gap: 9px;
 }
 
-.tarjeta_indicacion {
-    margin-left: 16px;
-}
-
 .tarjeta_acciones {
     display: flex;
     align-items: center;
     gap: 11px;
+}
+
+.tarjeta_acciones .boton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    padding: 0;
+    font-size: var(--texto-titulo);
+    line-height: 1;
+}
+
+.tarjeta .boton {
+    border-color: var(--color-tema, var(--tinta));
+    color: var(--color-tema, var(--tinta));
 }
 
 .boton_eliminar {

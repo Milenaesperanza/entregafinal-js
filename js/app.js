@@ -191,13 +191,15 @@ async function cargarSugerencias() {
 }
 
 function renderizarSugerencias(sugerencias) {
-    sugerencias.forEach((sugerencia) => {
+    sugerencias.forEach((sugerencia, indice) => {
+        const color = COLORES[indice % COLORES.length];
+
         const boton = document.createElement("button");
         boton.className = "boton";
-        boton.textContent = sugerencia.titulo;
+        boton.textContent = `${sugerencia.titulo}`;
 
         const item = document.createElement("li"); // cada elemento debe crearse en el mismo tipo que en el html para que siga la misma lógica del maquetado
-        item.className = "sugerencia";
+        item.className = `sugerencia sugerencia--${color}`;
         
         boton.addEventListener("click", () => {
             const yaExiste = materias.some(
@@ -354,9 +356,17 @@ function renderizar() {
         const item = document.createElement("li")
         item.className = `tarjeta tarjeta--${materia.color}`;
 
-        const activa = materiaId === materia.id;
-        let textoControl = activa && corriendo ? "Detener" : "Comenzar";
-        if (materia.completada) textoControl = "Completada";
+         const activa = materiaId === materia.id;
+        let iconoControl = "▷";
+        let tituloControl = "Comenzar";
+        if (activa && corriendo) {
+            iconoControl = "Ⅱ";
+            tituloControl = "Detener";
+        }
+        if (materia.completada) {
+            iconoControl = "✓";
+            tituloControl = "Completada";
+        }
 
         item.innerHTML = `
           <div class="tarjeta_cuerpo">
@@ -367,10 +377,11 @@ function renderizar() {
              <p class="tarjeta_indicacion">${materia.bloques * 25}min</p>
           </div>
           <div class="tarjeta_acciones">
-             <button class="boton boton_control" type="button" ${materia.completada ? "disabled" : ""}>${textoControl}</button>
-             <button class="boton boton_eliminar" type="button">Eliminar</button>
+             <button class="boton boton_control" type="button" title="${tituloControl}" ${materia.completada ? "disabled" : ""}>${iconoControl}</button>
+             <button class="boton boton_eliminar" type="button" title="Eliminar">×</button>
           </div> 
         `;
+
         item.querySelector(".tarjeta_nombre").textContent = materia.titulo;
         
         item.querySelector(".boton_control").addEventListener("click", () => controlarMateria(materia));
