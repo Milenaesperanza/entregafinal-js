@@ -39,6 +39,16 @@ function avisar(mensaje, tipo="info") {
     return Toast.fire({ title: mensaje, icon: iconos[tipo] });
 }
 
+function anunciar({ titulo, texto, emoji, confirmarTexto = "Listo" }) {
+    return Swal.fire({
+        title: `${emoji} ${titulo}`,
+        text: texto,
+        showCloseButton: true,
+        confirmButtonText: confirmarTexto,
+        confirmButtonColor: color("--rojo"),
+    });
+}
+
 // Creo el DOM del funcionamiento del Reloj, el core de mi app
 
 const dom = {
@@ -79,6 +89,7 @@ let corriendo = false;
 let intervalo = null;
 let materiaId = null;
 let bloquesCompletados = 0;
+let terminaDespuesDelDescanso = false;
 
 function mostrarVista(nombre) {
     dom.pestanias.forEach((pestania) => {
@@ -132,27 +143,30 @@ function cambiarFase(nuevaFase) {
 }
 
 function terminarFase() {
-    if (fase ==="estudio") {
+    if (fase === "estudio") {
         bloquesCompletados += 1;
         let materiaTerminada = false;
         if (materiaId) materiaTerminada = completarBloque(materiaId);
-        
-        if (materiaTerminada) {
-            restablecerTemporizador();
-            avisar("Completaste la materia", "exito");
-            return;
-        }
 
-        if (bloquesCompletados === 4) {
-            cambiarFase("descansoLargo");
-            bloquesCompletados = 0;
-        } else {
-        cambiarFase("descanso");
-        } 
-    } else {
-        cambiarFase("estudio");
+        const descansoLargo = bloquesCompletados === 4;
+        terminaDespuesDelDescanso = materiaTerminada;
+        cambiarFase(descansoLargo ? "descansoLargo" : "descanso");
+
+        anunciar({ titulo: "Bloque completo", texto: "Ahora toca descansar.", emoji: "☕", confirmarTexto: "Iniciar descanso" })
+            .then((resultado) => { if (resultado.isConfirmed) comenzar(); });
+        return;
     }
-    comenzar();
+
+    // fase === "descanso" o "descansoLargo"
+    if (terminaDespuesDelDescanso) {
+        restablecerTemporizador();
+        avisar("Materia completada", "exito");
+        return;
+    }
+
+    cambiarFase("estudio");
+    anunciar({ titulo: "Descanso terminado", texto: "Podés continuar estudiando.", emoji: "📚", confirmarTexto: "Iniciar estudio" })
+        .then((resultado) => { if (resultado.isConfirmed) comenzar(); });
 }
 
 function restablecerTemporizador() {
