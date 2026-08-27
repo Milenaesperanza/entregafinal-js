@@ -210,7 +210,7 @@ function renderizarSugerencias(sugerencias) {
             }
 
             materias.push({
-               id: creadId(),
+               id: crearId(),
                titulo: sugerencia.titulo,
                color: COLORES[materias.length % COLORES.length],
                bloques:1,
@@ -240,19 +240,23 @@ dom.formulario.addEventListener("submit", guardarMateria);
 // Declaro la clave para la persistencia de los datos en localStorage
 const CLAVE = "estudoro:materias"
 
-function creadId() {
+function crearId() {
     return Date.now().toString();
+}
+
+function fechaActual() {
+    return new Date().toLocaleDateString("es-AR");
 }
 
 // Creo las funciones que van a realizar las acciones que tienen que ver con el guardado y cargado de los arrays
 function guardarMaterias() {
-    localStorage.setItem(CLAVE, JSON.stringify(materias));
+    localStorage.setItem(CLAVE, JSON.stringify({ fecha: fechaActual(), materias}));
 }
 
 function cargarMaterias() {
-    const datos = localStorage.getItem(CLAVE);
-    if (datos) {
-        return JSON.parse(datos);
+    const datos = JSON.parse(localStorage.getItem(CLAVE));
+    if (datos && datos.fecha === fechaActual()) {
+        return datos.materias || [];
     }
     return[]
 }
@@ -425,7 +429,7 @@ function guardarMateria(evento) {
     }
 
     materias.push({
-        id: creadId(),
+        id: crearId(),
         titulo,
         color: COLORES[materias.length % COLORES.length],
         bloques: Number(dom.campoBloques.value),
