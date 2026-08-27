@@ -55,6 +55,7 @@ footer {
   --rojo-margen: #be4949;
   --rojo: #a74a4a;
   --tinta: #253d73;
+  --tinta-suave: #5e6a80;
   --fondo: #d8d3c8;
   --fuente: "Overlock", sans-serif;
   --texto-chico: 0.87rem;
@@ -115,6 +116,18 @@ body {
 }
 
 /* Tablero: Reloj + Materias */
+
+.pestanias button {
+    flex: 1;
+    padding: 11px 10px 8px;
+    color: var(--tinta-suave);
+    background: transparent;
+    border: 0;
+}
+
+.pestanias .pestania-activa {
+    color: var(--tinta);
+}
 
 .tablero {
     display: flex;
@@ -194,6 +207,12 @@ body {
 
 
 /* Materias del día */
+
+.vacio {
+    padding: 40px 20px;
+    text-align: center;
+    color: var(--tinta-suave);
+}
 
 .vista_lista {
     display: flex;

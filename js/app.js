@@ -8,6 +8,8 @@ const listaMaterias = document.getElementById("lista-materias");
 
 const listaSugerencias = document.querySelector(".sugerencias_lista");
 
+const mensajeVacio = document.getElementById("mensaje-vacio");
+
 const CLAVE_USUARIO = "estudoro:nombre-usuario";
 
 const COLORES = ["azul", "rojo", "verde"];
@@ -126,7 +128,7 @@ function dibujar() {
     dom.reloj.classList.toggle("reloj--corriendo", corriendo);
     dom.reloj.classList.toggle("reloj--descanso", fase !== "estudio");
 }
-
+mostrarVista("pomodoro");
 dibujar();
 
 function actualizarFoco() {
@@ -382,6 +384,7 @@ function controlarMateria(materia) {
 
 function renderizar() {
     listaMaterias.innerHTML = "";
+    mensajeVacio.hidden = materias.length > 0;
 
     materias.forEach((materia) => {
         const item = document.createElement("li")
