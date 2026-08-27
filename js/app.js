@@ -123,6 +123,8 @@ function dibujar() {
     dom.estado.textContent = "";
     if (materiaId && !corriendo) dom.estado.textContent = "En pausa";
     if (materiaId && corriendo) dom.estado.textContent = "Corriendo";
+    dom.reloj.classList.toggle("reloj--corriendo", corriendo);
+    dom.reloj.classList.toggle("reloj--descanso", fase !== "estudio");
 }
 
 dibujar();

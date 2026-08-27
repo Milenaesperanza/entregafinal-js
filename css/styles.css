@@ -184,6 +184,15 @@ body {
   font-size: var(--texto-base);
 }
 
+.reloj--corriendo .reloj_tiempo {
+  color: #3f7257;
+}
+
+.reloj--descanso .reloj_tiempo {
+  color: var(--rojo);
+}
+
+
 /* Materias del día */
 
 .vista_lista {
