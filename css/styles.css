@@ -56,7 +56,10 @@ footer {
   --rojo: #a74a4a;
   --tinta: #253d73;
   --tinta-suave: #5e6a80;
+  --negro: #24211e;
+  --camel: #c99b62;
   --fondo: #d8d3c8;
+  --linea: color-mix(in srgb, var(--tinta) 22%, transparent);
   --fuente: "Overlock", sans-serif;
   --texto-chico: 0.87rem;
   --texto-secundario: 1rem;
@@ -158,6 +161,7 @@ body {
     gap: 14px;
     padding: 20px;
     flex: 0.85 1 0;
+    border-right: 1px solid var(--linea);
 }
 
 .reloj {
@@ -264,11 +268,16 @@ body {
 }
 
 .sugerencia--otra {
+    --color-tema: var(--negro);
+    --fondo-sugerencia: color-mix(in srgb, var(--camel) 32%, transparent);
+    --giro: -0.3deg;
     margin-left: auto;
 }
 
 .sugerencia--otra .boton {
+    padding-inline: 15px;
     border-style: dashed;
+    border-radius: 5px 10px 4px 9px;
 }
 
 .sugerencias_lista .boton:hover {
