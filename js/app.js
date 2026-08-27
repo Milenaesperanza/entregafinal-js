@@ -12,6 +12,12 @@ const CLAVE_USUARIO = "estudoro:nombre-usuario";
 
 const COLORES = ["azul", "rojo", "verde"];
 
+const sonidos = {
+    inicio: new Audio("assets/sounds/inicio-temporizador.wav"),
+    finEstudio: new Audio("assets/sounds/fin-enfoque.wav"),
+    finDescanso: new Audio("assets/sounds/fin-descanso.wav"),
+}
+
 // Creo Variables y Funcion de los toast de confirmación de materias agregadas
 const Toast = Swal.mixin({
     toast: true,
@@ -132,6 +138,7 @@ function comenzar() {
     if(corriendo) return;
     corriendo = true;
     intervalo = setInterval(tic, 1000);
+    sonidos.inicio.play();
     dibujar();
 }
 // Funciones para los bloques Pomodoro
@@ -144,6 +151,7 @@ function cambiarFase(nuevaFase) {
 
 function terminarFase() {
     if (fase === "estudio") {
+        sonidos.finEstudio.play();
         bloquesCompletados += 1;
         let materiaTerminada = false;
         if (materiaId) materiaTerminada = completarBloque(materiaId);
@@ -156,6 +164,8 @@ function terminarFase() {
             .then((resultado) => { if (resultado.isConfirmed) comenzar(); });
         return;
     }
+
+    sonidos.finDescanso.play();
 
     // fase === "descanso" o "descansoLargo"
     if (terminaDespuesDelDescanso) {
