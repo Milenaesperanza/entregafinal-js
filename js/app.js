@@ -436,7 +436,9 @@ function guardarMateria(evento) {
     guardarMaterias();
     cerrarFormulario();
     actualizarNombreUsuario();
-    if (!cargarNombreUsuario()) abrirFormulario();
     renderizar();
     avisar("Materia agregada", "exito")
 }
+
+actualizarNombreUsuario();
+if (!cargarNombreUsuario()) abrirModalNombre();
