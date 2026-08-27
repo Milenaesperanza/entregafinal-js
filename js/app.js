@@ -211,9 +211,14 @@ function detener() {
 
 // Creo función asincrona que depende del fetch del json que tiene la data para renderizar los botones
 async function cargarSugerencias() {
-    const respuesta = await fetch("data/plantillas.json");
-    const datos = await respuesta.json();
-    renderizarSugerencias(datos);
+    try {
+        const respuesta = await fetch("data/plantillas.json");
+        if (!respuesta.ok) throw new Error("No se pudieron cargar las materias sugeridas");
+        const datos = await respuesta.json();
+        renderizarSugerencias(datos);
+    } catch (error) {
+        avisar("No se pudieron cargar las materias sugeridas", "error");
+    }
 }
 
 function renderizarSugerencias(sugerencias) {
