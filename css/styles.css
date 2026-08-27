@@ -34,7 +34,6 @@ footer {
     border-bottom: 2px solid var(--tinta);
 }
 
-
 .boton {
     padding: 6px 14px;
     border: 2px solid var(--tinta);
@@ -207,6 +206,7 @@ body {
     flex-wrap: wrap;
     gap: 14px;
     list-style: none;
+    flex: 1;
 }
 
 .sugerencia {
@@ -233,6 +233,10 @@ body {
     border-radius: 52% 48% 50% 46% / 55% 49% 53% 47%;
     transform: rotate(var(--giro));
     transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.sugerencia--otra {
+    margin-left: auto;
 }
 
 .sugerencia--otra .boton {
